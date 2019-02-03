@@ -1,4 +1,4 @@
-import hashlib
+# import hashlib
 from django.contrib import messages
 from django.http import HttpResponseRedirect
 from django.shortcuts import render
@@ -72,3 +72,21 @@ def success(request):
 # does update tags now
 # 'update_members', not just 'update'
 # client.lists.segments.update_members(m_l_id, segment_id=2097, data={'name': 'par', 'members_to_remove': [email]})
+
+# helper functions
+def find_double(members_list):
+    user_list = [i['email_address'] for i in members_list['members']]
+    # conjunto de membros repetidos
+    d_member = set(i for i in user_list if user_list.count(i) > 1)
+
+    for i in d_member:
+        count = 0
+
+        for u in members_list['members']:
+            match_user = u['email_address'] == i
+
+            if count > 0 and match_user:
+                u['timestamp_opt'] += ' PAR'
+
+            if match_user:
+                count += 1

@@ -1,5 +1,5 @@
 from django.test import TestCase
-
+from workshop.core.views import find_double
 # Create your tests here.
 
 # Um teste
@@ -29,21 +29,5 @@ d_r = {'result': [
 
 class CheckDoubleTest(TestCase):
     def test_double(self):
-        # Check double
-        user_list = [i['email_address'] for i in d['members']]
-        # conjunto de membros repetidos
-        d_member = set(i for i in user_list if user_list.count(i) > 1)
-
-        for i in d_member:
-            count = 0
-
-            for u in d['members']:
-                match_user = u['email_address'] == i
-
-                if count > 0 and match_user:
-                    u['timestamp_opt'] += ' PAR'
-
-                if match_user:
-                    count += 1
-
+        find_double(d)
         self.assertEqual(d['members'], d_r['result'])
